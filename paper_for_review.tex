@@ -8,8 +8,9 @@
 \usepackage{amssymb}
 
 % Include other packages here, before hyperref.
-\usepackage[labelfont=bf]{caption}
+\usepackage[labelfont=bf, skip=5pt]{caption}
 \captionsetup{labelsep=period}
+\usepackage{footmisc}
 
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
@@ -53,7 +54,7 @@ Representations of artificial neurons in deep neural networks have been demonstr
 Nevertheless, our understanding of them arguably remains limited.
 In this paper, we address two important and practical questions: (1) why deep networks are better than shallow networks, and (2) among networks of the same depth, why certain networks are better than the others.
 Using methods which support characterizing both first-order and second-order properties of scalar and vector representations, we conducted a large-scale experiment, with 200 randomly generated shallow and deep networks, or totally 6,400 neurons characterized, and the results analyzed through a series of measures designed to quantify the differences in representations. 
-We conclude that deep representations are significantly better than shallow representations, and overall 71\% of the variance in deep networks' performances can be explained with our measures, both of which are confirmed using statistical tests for the first time.
+We conclude that deep representations are quantitatively better than shallow representations, and overall 71\% of the variance in deep networks' performances can be explained with our measures, both of which are confirmed using statistical tests for the first time.
 
 %(\ie optimal stimulus) (\ie invariance and selectivity paths)
 %use X as example of deep networks
@@ -65,11 +66,11 @@ We conclude that deep representations are significantly better than shallow repr
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=0.35\textwidth]{Figs/e_fig7s_compact-crop.pdf} 
+\includegraphics[width=0.40\textwidth]{Figs/e_fig7s_compact-crop.pdf} 
 \end{center}
 \caption{{\bf What makes a deep network good?}
 In existing literatures, researchers mostly tried to come up with one (or few) ``best'' network architecture (\ie hyperparameter set, either through manual tuning or automated hyperparameter search) and then benchmarked the network's performances.
-However, as exemplified in the figure, when considering a larger population of networks \cite{cox2011beyond}, it is not fully clear to us why deep (\ie two-level) networks in practice outperform shallow (\ie one-level) networks, and why certain networks are better than the others, given their broad distribution of performances on LFW-a face recognition \cite{LFWTech, wolf2011effective}.
+However, as exemplified in the figure, when considering a larger population of networks \cite{cox2011beyond}, it is not fully clear to us why deep (\eg two-level) networks in practice outperform shallow (\eg one-level) networks, and why certain networks are better than the others, given their broad distribution of performances on LFW-a face recognition \cite{LFWTech, wolf2011effective}.
 %However, it is not fully clear that in practice (1) why deep networks are better than shallow networks, and (2) among networks of the same depth, why certain networks are better than the others.
 %As exemplified in the figure, deep (\ie two-level) networks not only on average outperform shallow (\ie one-level) networks \cite{cox2011beyond}, but also exhibit a wide range of performance differences on LFW-a face recognition \cite{LFWTech, wolf2011effective}.
 } % (\eg optimal stimulus). %and (sometimes) characterized its properties
@@ -78,7 +79,9 @@ However, as exemplified in the figure, when considering a larger population of n
 
 Although deep neural networks have been successfully pushing the boundaries of computer vision by breaking the records of ImageNet Challenges (ILSVRC) year after year recently \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going}, our understanding about the properties of these networks arguably remains limited, since we could not yet fully answer the question ``what makes a deep network good?''.
 As demonstrated in Fig.~\ref{fig:perf}, we summarized two important subquestions to be investigated: (1) why deep networks are better than shallow networks, and (2) among networks of the same depth, why certain networks are better than the others.
-Specifically, from the point of view that successful networks are forming ``better'' representations of visual inputs that are more separable to the final-stage linear classifiers, we want to identify the crucial properties that are required in good representations.
+Specifically, from the point of view that successful networks are forming ``better'' representations of visual inputs that are more separable to the final-stage linear classifiers, we want to identify the crucial properties that are required in forming (or learning) better representations.
+
+%which can be potentially useful in improve representation learning 
 
 %\newcommand{\ivec}{\mathrm{vec}^{-1}}
 %$f({\bf{x}}) = \left\| {\bf{K}} \otimes \ivec\left({\bf{x}}\right) \right\|_{F}$
@@ -92,7 +95,7 @@ For single-level convolutional networks using squared pooling, \ie $f({\bf{x}}) 
 For multi-level convolutional networks, optimal stimuli of neurons from various depths were numerically approximated \cite{ngiam2010tiled, le2012building, zeiler2014visualizing, simonyan2013deep} to qualitatively show neurons in deeper layers are tuned to more complex visual patterns.
 The generalized concept of optimal stimulus in considering groups of neurons can also be adopted to study the representations by inverting them \cite{mahendran2014understanding}.
 
-Beyond the first-order characterization, the analyses of invariance and selectivity properties of neurons was adopted in a few works, which can be viewed as the second-order characterization of $f$, and parametric deformation in stimuli was the most commonly used setup.
+In addition to the first-order characterization, the analyses of invariance and selectivity properties of neurons (\eg changes in stimuli which given neurons are least and most sensitive to, how small or large the changes are, \etc) was adopted in a few works, which can be viewed as the second-order characterization of $f$, and parametric deformation in stimuli was the most commonly used setup.
 For example, translation, rotation, scaling, \etc in stimulus were used in \cite{goodfellow2009measuring, zeiler2014visualizing} to test the invariance and selectivity of neurons.
 Similar deformations were also adopted in \cite{lenc2014understanding}, but extended to analyze more advanced properties (\ie equivariance and equivalence) of groups of neurons.
 More generalized setups that, \eg, utilize local quadratic information (\ie the Hessian) or ``global'' numerical searches in the stimulus space, even though do exist, were less explored in the context of artificial neural network studies.
@@ -184,14 +187,16 @@ Though not matching the performances of deep networks trained on massive quantit
 Most importantly, since it does not require training (except for the linear SVM on top of the representations extracted), a large number of networks with diverse hyperparameters can be rapidly generated and compared, which is particularly useful in this study where relative, instead of absolute task performances, are of the main interest. 
 As one might concern that comparing randomly weighted networks will not tell much about representations, since they might as well be random, our results also suggest otherwise.
 
-\newcommand{\expsettings}{In other words, 32 channels of filters in top levels' convolution layers.
+\newcommand{\expsettings}{In other words, 32 channels of filters in top levels' convolution layers, a simple setting with reasonable performances.
 Following the terminology in recent literatures, shallow and deep neurons corresponded to \texttt{pool1} and \texttt{pool2} layers respectively.
 Stimulus dimensionalities of the shallow and deep neurons {were} $N=121$ and $441$ (\ie spatially overlapping $11\times11$ and $21\times21$ receptive fields). % respectively
-Other minor changes included: nonlinear activations all simplified to \emph{ReLU} \cite{krizhevsky2012imagenet} mode and normalizations all conditionally subtractive mode.
-Overall, the architectures were more similar to those in \cite{simonyan2014very}, except that pooling operations can be \emph{average}, \emph{squared}, or \emph{max-like} in our case.
+Other minor changes included: nonlinear activations all simplified to \emph{ReLU} \cite{krizhevsky2012imagenet} mode and normalizations all subtractive mode.
+Overall, the architectures were more similar to those in \cite{simonyan2014very}, except pooling operations can be \emph{average}, \emph{squared}, or \emph{max-like} in our case.
 }
 
-In the experiments, 100 shallow (\ie one-level) networks and 100 deep (\ie two-level) networks {were} randomly generated (except all with 32 top-layer neurons\footnote{\expsettings}) and tested to see how their representations differ with networks' depths and affect networks' performances on face pair matching tasks against the LFW-a dataset \cite{LFWTech, wolf2011effective} as shown in Fig.~\ref{fig:perf}. %, using 10-fold cross validation on view 2.
+\newcommand{\exptask}{We chose face images over object images for our recognition task because facial patches can be easily aligned and compared against our results. However, our methods and measures are not limited to just face images.}
+
+In the experiments, 100 shallow (\ie one-level) networks and 100 deep (\ie two-level) networks {were} randomly generated (except all with 32 top-layer neurons\footnote{\expsettings}) and tested to see how their representations differ with networks' depths and affect networks' performances on face pair matching\footnote{\exptask} tasks against the LFW-a dataset \cite{LFWTech, wolf2011effective} as shown in Fig.~\ref{fig:perf}. %, using 10-fold cross validation on view 2.
 The fitness landscapes of shallow and deep representations in our case are both non-convex, therefore there is no guarantee that optimality can be achieved through any optimization method.
 However, by carefully adjusting the numerical solver and monitoring the quality of solutions, we argue that informative local optima can still be discovered and used to characterize the representations.
 Specifically, all numerical optimizations {were} executed multiple times from different random initial stimuli, for increasing quality of the numerical solutions (of optimal stimuli and invariance and selectivity paths, with 2 runs executed and the better kept), and at the same time, for providing statistical samplings of the solution spaces (of encoding specificities and invariance and selectivity subspace properties, as detailed later).
@@ -221,9 +226,8 @@ Comparatively, \emph{deep neurons show more complex and diverse representational
 \includegraphics[width=0.35\textwidth]{Figs/e_fig3a_2-crop-nup-crop.pdf} 
 \end{center}
 \caption{{\bf Fitness-distance analyses of shallow (A) and deep scalar representations (B).}
-Fitnesses of invariance (red dots, \ie $\left\lbrace f\left(\bf{x}^{+}_{\delta}\right) \right\rbrace$) and selectivity paths (blue dots, \ie $\left\lbrace f\left(\bf{x}^{-}_{\delta}\right) \right\rbrace$) of all 3,200 shallow and 3,200 deep neurons are shown for comparison.
-A small fraction of invariance paths in fact have fitnesses higher than the optimal stimuli's due to a non-convex problem's nature, which however does not cause noticeable differences in the resultant statistics.
-While both types of neurons show invariance, shallow neurons do not posses selectivity, since their selectivity paths overlap with the dashed line---the zero-selectivity baseline.
+Fitnesses of invariance (red dots, \ie $\left\lbrace f\left(\bf{x}^{+}_{\delta}\right) \right\rbrace$) and selectivity paths (blue dots, \ie $\left\lbrace f\left(\bf{x}^{-}_{\delta}\right) \right\rbrace$) of all 3,200 shallow and 3,200 deep neurons are shown for comparison\protect\footnotemark.
+Although both types of neurons show invariance, shallow neurons do not posses selectivity, since their selectivity paths overlap with the dashed line, the zero-selectivity baseline.
 In other words, \emph{only deep neurons are selective}.
 } %, and random walks (green dots, \ie $\left\lbrace f\left({\bf{x}}^{R}_{\delta}\right) \right\rbrace$)
 \label{fig:fda}
@@ -246,6 +250,8 @@ From the results, first, the response landscapes of deep neurons are noticeably 
 Second, the optimal stimuli of deep neurons are also relatively more complex (\ie consisting of more textural components) than those of shallow neurons (which are more uni-textured or Gabor-like).
 To quantify such differences, the spectral complexity measure, which is estimated through the $L^{1}$ norm of the (2 dimensional) Fourier power spectrum of optimal stimulus, \ie $\left\| \mathcal{F}(\hat{\bf{x}}) \right\|_{1}$, is adopted, where higher value suggests higher non-sparsity (\ie more spectral components required to represent the visual stimuli).
 
+\footnotetext{A small fraction of invariance paths in fact have fitnesses higher than the optimal stimuli's due to a non-convex problem's nature, which however does not cause noticeable differences in the resultant statistics.}
+
 \newcommand{\defbaseline}{Given a single inner-product neuron $f({\bf{x}}) = {\bf{w}}^{T}{\bf{x}}$ and $\left\| \bf{x} \right\| = 1$, we have $\hat{\bf{x}} = \bf{w}$ and thus $f({\bf{x}}_{\delta}) = {\hat{\bf{x}}}^{T}{\bf{x}}_{\delta} = \cos(\delta)$ by definition.}
 
 {\bf Invariance and selectivity path potential.} Figure \ref{fig:allrep}B/C and \ref{fig:allrep}F/G illustrate the invariance and selectivity paths on the same sets of shallow and deep neurons as in \ref{fig:allrep}A and \ref{fig:allrep}D.
@@ -265,7 +271,7 @@ Compared to invariance path potential which is designed to characterize the best
 
 %(\ie dimensionality, or subspace capacity) 
 
-\newcommand{\defstars}{In this paper, significance levels follow the definition that *, ** and *** correspond to $p<0.05$, $p<0.01$ and $p<0.001$ respectively.}
+\newcommand{\defstars}{In this paper, significance levels follow the definition that *, ** and *** correspond to $p<0.05$, $p<0.01$ and $p<0.001$ respectively.\label{fnote:defstars}}
 
 {\bf Overall comparison.} Comparisons of spectral complexities, invariance/selectivity path potentials, and invariance subspace capacities of shallow and deep neurons (as scalar representations) are summarized in Fig.~\ref{fig:pair}.
 These measures further reveal the significant\footnote{\defstars} differences between shallow and deep representations, in addition to the separability and classifiability used in previous studies \cite{donahue2014decaf, zeiler2014visualizing}.
@@ -282,8 +288,8 @@ The highly structural representations of neurons from deep networks with purely 
 \end{center}
 \caption{{\bf Representativities (\ie explanation power) of optimal stimuli of deep neurons.}
 Results from deep networks of the top 3 strongest average explanation power (A--C) and the weakest average explanation power (D) are visualized.
-Within each panel, the first row shows all 32 neurons' optimal stimuli from the network, the third to fifth rows show natural images with the top 3 strongest ``explainablilities'' (\ie inner-product distances between the images and the corresponding optimal stimuli), and the second row shows the average of images with top 100 explainablilities, out of 10,000 natural images.
-Color of the boarder of an image indicates the explainablility of the image, with color map following the definition in Fig.~\ref{fig:methods}.
+Within each panel, the first row shows all 32 neurons' optimal stimuli from the network, the third to fifth rows show natural images with the top 3 strongest ``explainabilities'' (\ie inner-product distances between the images and the corresponding optimal stimuli), and the second row shows the average of images with top 100 explainabilities, out of 10,000 natural images.
+Color of the boarder of an image indicates the explainability of the image, with color map following the definition in Fig.~\ref{fig:methods}.
 Comparing deep networks' explanation power and performances shows significant correlation (OSEP measure in Fig.~\ref{fig:corr}), which suggests \emph{``representing'' natural images can be required in first-order properties of good deep scalar representations (\ie optimal stimuli)}.
 }
 \label{fig:exppow}
@@ -323,7 +329,7 @@ Comparing deep networks' encoding specificities and performances shows significa
 \end{center}
 \caption{{\bf Spearman's correlations between deep network's representation measures and performance.}
 Representation measures following the raster order are, optimal stimulus explanation power (OSEP), invariance path potential (INPP), selectivity path potential (SLPP), invariance subspace capacity (INSC), invariance \vs task-related image subspace alignment (ITSA), selectivity \vs task-related image subspace alignment (STSA), task-related image encoding specificity (TSES), and all 7 measures together using linear multiple correlation analysis.
-Correlations $\rho$ and significance levels are $0.60^{\ast\ast\ast}$, $-0.31^{\ast\ast}$, $-0.24^{\ast}$, $-0.39^{\ast\ast\ast}$, $-0.44^{\ast\ast\ast}$, $-0.56^{\ast\ast\ast}$, $0.64^{\ast\ast\ast}$, and $0.84^{\ast\ast\ast}$, respectively.
+Correlations $\rho$ and significance levels\footref{fnote:defstars} are $0.60^{\ast\ast\ast}$, $-0.31^{\ast\ast}$, $-0.24^{\ast}$, $-0.39^{\ast\ast\ast}$, $-0.44^{\ast\ast\ast}$, $-0.56^{\ast\ast\ast}$, $0.64^{\ast\ast\ast}$, and $0.84^{\ast\ast\ast}$, respectively.
 Overall, \emph{71\% of the variance ($\rho^2$) of deep networks' performances can be explained} using the proposed representation measures altogether.
 }
 \label{fig:corr}
@@ -332,7 +338,7 @@ Overall, \emph{71\% of the variance ($\rho^2$) of deep networks' performances ca
 {\bf Optimal stimulus explanation power.} To understand how optimal stimulus may affect a network's performance, we {tested} how well the optimal stimulus may ``linearly explain'' natural images and how the explanation power correlates with network's performance.
 Totally 10,000 image patches {were} randomly cropped out of the predefined facial regions of pictures from the LFW-a dataset \cite{wolf2011effective} and compared against the optimal stimuli of all 32 top-layer neurons from all 100 deep networks. 
 Figure \ref{fig:exppow} shows the results of best 3 and worst 1 networks in terms of explanation power, which is estimated as the mean of the linear explainability of natural images, or inner-product distances between the optimal stimulus and $n$ nearest natural images $\left\lbrace {\bf{x}}^{t} \right\rbrace$, \ie $\frac{1}{n}\sum_{i=1}^{n} \langle {\bf{x}}^{t}_{i} , \hat{{\bf{x}}} \rangle$ with $n=100$, to measures how well the optimal stimulus can linearly ``approximate'' natural images (or intuitively how much neuronal response might be elicited).
-It can be observed that, though none of the natural images is highly similar to any of the optimal stimuli, when alternatively comparing the averages of natural images of the top 1\% explainablilities and the optimal stimuli, the similarities (Fig.~\ref{fig:exppow}A.1 \vs \ref{fig:exppow}A.2, \etc) and dissimilarities (Fig.~\ref{fig:exppow}D.1 \vs \ref{fig:exppow}D.2) become apparent.
+It can be observed that, though none of the natural images is highly similar to any of the optimal stimuli, when alternatively comparing the averages of natural images of the top 1\% explainabilities and the optimal stimuli, the similarities (Fig.~\ref{fig:exppow}A.1 \vs \ref{fig:exppow}A.2, \etc) and dissimilarities (Fig.~\ref{fig:exppow}D.1 \vs \ref{fig:exppow}D.2) become apparent.
 Such kind of ``linearities'' around task-related images out of the well-performing highly-nonlinear networks were observed in previous studies \cite{le2012building, simonyan2013deep} too, where optimal stimuli also resembled averages or combinations of visual objects.
 
 %For simplicity and clarity of presentation, the explanation power measure is calculated using the top 1\% (i.e.~100) of the task-related stimuli with highest explainabilities, without biasing the results compared to using all task-related stimuli. 
@@ -391,6 +397,7 @@ Although our results can potentially generalize if viewed as the characterizatio
 While the methods and measures proposed in this work are neutral to the depth of networks, numerical difficulties (\eg evaluation and convergence speed, quality of solutions, \etc) may need to be addressed in very deep networks.
 Beyond explaining what properties make a deep representation good, it would be valuable too to incorporate these findings in learning even better representations, which are almost solely driven by bigger datasets nowadays, via certain kind of regularizations.  
 We argue that this could be useful in accelerating or improving representation learning, especially when data are scarce and representations are not easily transferable.
+Finally, even though a decently high fraction of the variance in deep networks' performances has been explained, how to further increase this number, if there is an upper bound (\eg limits from dataset itself), \etc, need to be further investigated.
 
 %Secondly, statistical tests were extensively deployed to support observations reported in this paper, especially in the context of real applications (\ie LFW-a face recognition), which might seem still far-fetched to be fully explainable by mathematical theories.
 %Nonetheless, we envision that combining more theoretical analyses which, \eg, have been adopted in various topics in understanding deep representations \cite{delalleau2011shallow, montufar2014number}, with statistical simulations can further empower us in answering other important questions in deep networks \cite{bengio2013deep}.
