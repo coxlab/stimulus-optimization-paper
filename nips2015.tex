@@ -161,8 +161,9 @@ Overall, the architectures were more similar to those in \cite{simonyan2014very}
 
 % \cite{fukushima1980neocognitron, lecun1998gradient, riesenhuber1999hierarchical, krizhevsky2012imagenet}
 \newcommand{\expperf}{10-fold cross validation accuracies using the LFW view 2 splits (\cite{LFWTech}, totally 6,000 face pairs) are reported.
-Although it is highly desirable to characterize representations from the state-of-the-art face pair matching networks \cite{taigman2014deepface, sun2014deep, schroff2015facenet}, neither those trained networks nor their datasets are publicly available.
-Nonetheless, under the hard protocol adopted here (\ie image-restricted, no outside data, data augmentation, or multiple-crop evaluation), the (well-performing) random networks remain competitive against trained networks and do provide good representations in terms of accuracies attained.
+We stress that differential comparison of performance among models, rather than absolute performance was the goal of the present work.
+Although it would be desirable to also characterize representations from the state-of-the-art face pair matching networks \cite{taigman2014deepface, sun2014deep, schroff2015facenet}, neither the trained networks nor their datasets are publicly available.
+Nonetheless, under the challenging protocol adopted here (\ie image-restricted, no outside data, no data augmentation, or multiple-crop evaluation), the highest-performing among the random networks still can achieve reasonable levels of performance (esp. if more layers are used) and thus we argue they are useful objects of study. 
 } 
 %State-of-the-art networks trained on massive private datasets \cite{taigman2014deepface, sun2014deep, schroff2015facenet} do have significantly higher accuracies. %absolute
 %However, under the hard protocol adopted here (\ie image-restricted, no outside data), this model remains competitive among neural network-based algorithms.
