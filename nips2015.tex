@@ -261,7 +261,7 @@ Good and bad examples from 3 types of the representation measures among all deep
 (1) \Wrt the TSEA measure, good representations can be inverted with much stronger similarities to the original reference stimuli.
 (2) \Wrt the ITSSA/STSSA measures, the ``intrinsic'' invariant and selective directions ($\Delta$'s, differences between the reference and invariant/selective stimuli $0.1\pi$ away) of good representations are much more natural (like structural deformations, lighting changes, \etc), and the invariant and selective stimuli align better against the eigenface subspace, whereas those of bad representations are highly noisy and align poorly against the eigenface subspace.
 (3) \Wrt the OTSA measure, the optimal stimuli of good representations are comparatively more correlated to face images, especially to the linear averages of the most similar (top 100) face images, whereas those of bad representations do not.
-Comparing these measures against the performances of deep networks (see Fig.~\ref{fig:corr}) shows strong correlations, which imply \emph{these first- and second-order properties of good representations must well ``align with'' the distribution of task-related stimuli}, even if they are not explicitly engineered to do so (unlike generative models).
+Comparing these measures against the performances of deep networks (see Fig.~\ref{fig:corr}) shows strong correlations, which implies taht these first- and second-order properties of good representations must ``align with'' the distribution of task-related stimuli, even if the networks were not explicitly trained to have this property.
 }
 \label{fig:allrep2}
 \end{figure}
@@ -273,17 +273,17 @@ Figure \ref{fig:allrep2} shows the reference stimuli and good \vs bad examples o
 This can also be interpreted as the first-oder alignment between the ``encoding landscape'' (\ie fitness landscape of the auxiliary neuron) and the task-related stimuli.
 Our analysis predicts that strong encoding accuracies should also be observed in those even deeper and more powerful state-of-the-art networks. 
 Interestingly, this in fact has been independently verified in recent studies \cite{mahendran2014understanding, long2014convnets, razavian2014persistent}, which also employed such kind of ``invertibility'' to study the representations. % of individual well-performing deep networks.
-In addition, even though these deep convolutional representations are not formulated to be invertible (as opposed to, \eg, autoencoder's), our results further suggest that this property can actually be \emph{required} for a deep network to perform well.
+In addition, even though the deep convolutional representations used here are not formulated to be invertible (as opposed to, \eg, autoencoders), our results further suggest that this property can actually be \emph{required} for a deep network to perform well.
 
 %SSIM measured using default settings of the standard implementation \cite{wang2004image} while different settings also yield similar correlations; other similarity measures like SNR, PSNR, and inner-product distance yield similar correlations as well
 
 {\bf Invariance and selectivity \vs task-related stimulus subspace alignment.} 
-It is widely known that invariance and selectivity are essential for biological vision \cite{desimone1991face, ito1995size}; however, how these properties directly affect the recognition performances of artificial neural networks remains hypothetical.
+It is widely known that invariance and selectivity are essential for biological vision \cite{desimone1991face, ito1995size}; however, how these properties directly affect the recognition performances of artificial neural networks remains unclear.
 To address this question, starting from randomly sampled reference stimuli, invariance and selectivity path searches {were} performed at $\delta = 0.1\pi$ using Eq.~\ref{eq:I2} and \ref{eq:S2} for vector representations. 
 Figure \ref{fig:allrep2} demonstrates examples of good and bad alignments between the subspaces formed by the invariance/selectivity paths and the task-related stimuli (\ie how likely the invariance and selectivity can benefit recognition), which are defined as the sparsity of $n$ paths projected onto the task-related stimuli's principal component (or here, eigenface) vector space $\bf{V}$, \ie $\frac{1}{n}\sum_{i=1}^{n} \left\| {\bf{Vx}}_{\delta,i} \right\|_{1}$ with $n=20$ and $\delta=0.1\pi$.
 Compared to previous work, our method does not assume that any kind of parametric deformation is important and thus should be studied.
-Instead, the ``intrinsic'' invariant and selective directions of representations are directly searched and compared against the distribution of the task-related stimuli, which is more bias-free.
-Surprisingly, highly natural invariance/selectivity are again observed in well-performing networks even given their nature of randomness.
+Instead, the ``intrinsic'' invariant and selective directions of representations are directly searched and compared against the distribution of the task-related stimuli, which is relatively bias-free.
+Interestingly, high degrees of invariance and selectivity are observed in high-performing networks, even though these networks were not trained to have this property.
 
 %preferred
 %$\left\lbrace {\bf{x}}^{t} \right\rbrace$
@@ -295,8 +295,8 @@ To understand how the optimal stimuli of individual neurons may affect a deep ne
 Specifically, 10,000 face patches in total {were} randomly sampled from the LFW-a dataset and compared against the optimal stimuli of deep neurons.
 Figure \ref{fig:allrep2} shows examples of good and bad alignments between the optimal stimuli and task-related stimuli, where the alignment measure is defined as the mean of the inner-product distances between an optimal stimulus and its $n$ nearest task-related stimuli $\left\lbrace {\bf{x}}^{t} \right\rbrace$, \ie $\frac{1}{n}\sum_{i=1}^{n} \langle {\bf{x}}^{t}_{i} , \hat{{\bf{x}}} \rangle$ with $n=100$, to estimate how well an optimal stimulus can linearly represent the task-related stimuli (or intuitively how responsive the corresponding neuron might be under the task).
 Intriguingly, though none of the optimal stimuli is apparently similar to any of the task-related stimuli, when alternatively compared against the averages of the better aligned task-related stimuli (top 1\%), the similarities (in good representations) and dissimilarities (in bad representations) become apparent.
-While it is unclear how to ``optimally place'' an optimal stimulus (or shape the entire landscape) in a high dimensional stimulus space under visual recognition tasks, based on the observation, we hypothesize that it should be closely surrounded by multiple visually similar task-related stimuli (but not directly on any individual task-related stimulus) such that the neuron is more likely to represent those similar stimuli (and only those stimuli) with similar values.
-This may also explain why optimal stimuli often resemble the averages \cite{le2012building} or combinations \cite{simonyan2013deep} of multiple visual objects.
+While it is unclear how to ``optimally place'' an optimal stimulus (or shape the entire landscape) in a high dimensional stimulus space under visual recognition tasks, based on our observations, we hypothesize that it should be closely surrounded by multiple visually similar task-relevant stimuli, such that the neuron is more likely to represent those similar stimuli (and only those stimuli) with similar values.
+This observation may also explain why optimal stimuli often resemble the averages \cite{le2012building} or combinations \cite{simonyan2013deep} of multiple visual objects.
 
 % (which in low dimensional cases are theoretically validated)
 %Such kind of ``linearities'' around task-related images out of the well-performing highly-nonlinear networks were observed in previous studies \cite{le2012building, simonyan2013deep} too, where optimal stimuli also resembled averages or combinations of visual objects.
