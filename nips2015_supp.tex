@@ -73,15 +73,15 @@ In the main paper, for inverting deep vector representations, even though Eq.~2 
 Implementation-wise, it was further regularized with the energy of Laplacian filtering $\left\| \mathcal{L} \left( \bf{x} \right) \right\|$ to enforce smoothness and similarity to natural images.
 A similar concept was also adopted in \cite{mahendran2014understanding}.
 
-\subsection{Permutation Tests}
+\subsection{Permutation Tests \cite{fisher1935design, pitman1938significance}}
 
 \subsubsection{Permutation Test for Significance of Difference between Two Distributions}
 
-Considering two distributions $A$ and $B$, we can test how likely these two distributions are significantly different, rather than actually being from the same distribution (the null hypothesis), using a permutation test as follows. The original difference $d$ between $A$ and $B$ is first calculated, then a large number of trials are performed. Within each trial, $A'$ and $B'$ (of the same size as $A$ and $B$) are formed by random sampling from $A \cup B$ (without replacement), and a new $d'$ is calculated. The $p$-value of the null hypothesis is then the probability of $d' > d$ among all trials. In this work, $A$ and $B$ are measure values from the shallow and deep networks, respectively.
+Considering two distributions $A$ and $B$, we can test how likely these two distributions are significantly different, rather than actually being from the same distribution (the null hypothesis), using a permutation test as follows. The original difference $d$ between $A$ and $B$ is first calculated, then a large number of trials are performed (1,000 in our experiments). Within each trial, $A'$ and $B'$ (of the same size as $A$ and $B$) are formed by random sampling from $A \cup B$ (without replacement), and a new $d'$ is calculated. The $p$-value of the null hypothesis is then the probability of $d' > d$ among all trials. In this work, $A$ and $B$ are measure values from the shallow and deep networks, respectively.
 
 \subsubsection{Permutation Test for Significance of Correlation between Two Sequences}
 
-Considering two sequences $a$ and $b$, we can test how likely these two sequences are significantly correlated, rather than actually not being correlated (the null hypothesis), using a permutation test as follows. The original correlation $c$ between $a$ and $b$ is first calculated, then a large number of trials are performed. Within each trial, $a'$ is formed by randomly shuffling $a$, and a new $c'$ is calculated between $a'$ and $b$. The $p$-value of the null hypothesis is then the probability of $c' > c$ among all trials.
+Considering two sequences $a$ and $b$, we can test how likely these two sequences are significantly correlated, rather than actually not being correlated (the null hypothesis), using a permutation test as follows. The original correlation $c$ between $a$ and $b$ is first calculated, then a large number of trials are performed (1,000 in our experiments). Within each trial, $a'$ is formed by randomly shuffling $a$, and a new $c'$ is calculated between $a'$ and $b$. The $p$-value of the null hypothesis is then the probability of $c' > c$ among all trials.
 In this work, $a$ and $b$ are measure values and performances of deep networks, respectively.
 
 %\subsubsection{Permutation Test for Significance of Correlation between Two Variables}
@@ -241,7 +241,7 @@ As a comparison, Pearson's correlations of TSEA, ITSSA, STSSA, OTSA, INPP, SLPP,
 
 %(altogether with linear multiple correlation of only $0.59$, and when combined with the other task-unrelated measures, only bring up the correlation marginally from $0.84$ to $0.86$),
 
-\section{Characterizing Face Pair Matching Decisions}
+\section{Results: Characterizing Face Pair Matching Decisions}
 
 \begin{figure}[H]
 \centering \includegraphics[width=\textwidth]{Figs/whole_face.pdf}

@@ -46,8 +46,8 @@ Cranberry-Lemon University\\
 Deep convolutional networks have been proven to be highly effective across a wide range of visual recognition tasks \cite{szegedy2014going, schroff2015facenet, donahue2014decaf}.
 However, our understanding of how these networks work arguably remains limited.
 Here, we examine two fundamental questions: first, why do deep networks outperform shallow networks, and second, among networks of the same depth, why do certain network architectures outperform the others.
-We used face pair matching as a simplified recognition test-bed, and conducted a large-scale experiment in which random shallow and deep networks were generated and analyzed to measure properties of their resulting representations of visual inputs.
-We describe a suite of measures of network selectivity, invariance, and representational quality that are able to account for up to 71\% of the variance in network performance, and we explore how these measures can yield insights into the factors that govern network performance.  
+We used face pair matching as a simplified recognition test bed, and conducted a large-scale experiment in which random shallow and deep networks were generated and analyzed to measure properties of their resulting representations of visual inputs.
+We describe a suite of measures of network invariance, selectivity, and representational quality that are able to account for up to 71\% of the variance in network performance, and we explore how these measures can yield insights into the factors that govern network performance.  
 \end{abstract}
 
 \begin{SCfigure}[1.5][h] % force here
@@ -65,7 +65,7 @@ Nevertheless, it is not fully understood why in practice deep networks (\eg two 
 In recent years, deep convolutional networks have come to dominate many benchmark challenges in computer vision, including datasets such as ImageNet \cite{russakovsky2014imagenet} and LFW \cite{LFWTech} year after year \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going, taigman2014deepface, sun2014deep, schroff2015facenet}.  However, in spite of this impressive performance, our understanding of these networks' properties arguably remains limited, since we cannot yet fully answer the question ``what makes a given deep network good?''
 In this paper, we address two practical aspects of this important question: (1) why do deep networks perform better than shallow networks, and (2) among networks of the same depth, why do certain networks perform better than others (as illustrated in Fig.~\ref{fig:perf}).
 More specifically, from the point of view that successful networks are forming better representations of visual inputs in which object categories are more separable, we want to identify the crucial properties that are required for forming (or learning) better representations. 
-We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as a benchmark task in our experiments, since previous investigations have shown that deep networks perform well in this domain \cite{taigman2014deepface}, and because face images can optionally be easily aligned and extracted from irreverent backgrounds, which can serve as a good source of visual stimuli for studying representations that fundamentally facilitates recognition.  The techniques presented here, however, are in no way specific to face recognition.
+We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as a benchmark task in our experiments, since previous investigations have shown that deep networks perform well in this domain \cite{taigman2014deepface, sun2014deep, schroff2015facenet}, and because face images can optionally be easily aligned and extracted from irreverent backgrounds, which can serve as a good source of visual stimuli for studying representations that fundamentally facilitates recognition.  The techniques presented here, however, are in no way specific to face recognition.
 
 % for two main reasons: (1) representations of face recognition networks are far less studied than those of object recognition networks, and (2) face images can be easily aligned and extracted from irreverent backgrounds, which can serve as a better source of visual stimuli for studying representations that fundamentally facilitates recognition\footnote{\expwhyface}.
 
@@ -163,7 +163,7 @@ Overall, the architectures were more similar to those in \cite{simonyan2014very}
 \newcommand{\expperf}{10-fold cross validation accuracies using the LFW view 2 splits (\cite{LFWTech}, totally 6,000 face pairs) are reported.
 We stress that differential comparison of performance among models, rather than absolute performance was the goal of the present work.
 Although it would be desirable to also characterize representations from the state-of-the-art face pair matching networks \cite{taigman2014deepface, sun2014deep, schroff2015facenet}, neither the trained networks nor their datasets are publicly available.
-Nonetheless, under the challenging protocol adopted here (\ie image-restricted, no outside data, no data augmentation, or multiple-crop evaluation), the highest-performing among the random networks still can achieve reasonable levels of performance (esp. if more layers are used) and thus we argue they are useful objects of study. 
+Nonetheless, under the challenging protocol adopted here (\ie image-restricted, no outside data, no data augmentation, or multiple-crop evaluation), the highest-performing among the random networks still can achieve reasonable levels of performance (especially if more layers are used) and thus we argue they are useful objects of study. 
 } 
 %State-of-the-art networks trained on massive private datasets \cite{taigman2014deepface, sun2014deep, schroff2015facenet} do have significantly higher accuracies. %absolute
 %However, under the hard protocol adopted here (\ie image-restricted, no outside data), this model remains competitive among neural network-based algorithms.
@@ -171,8 +171,8 @@ Nonetheless, under the challenging protocol adopted here (\ie image-restricted, 
 
 {\bf Experimental setup.}
 To enable the rapid probing of a large number of candidate networks, we used simplified random (untrained) deep convolutional neural networks \cite{cox2011beyond, sthor} in our experiments.
-As with other deep networks, these networks consist of the standard cascade of convolution, nonlinear activation, pooling layers, \etc (which together define a single ``level'' in this work), however, the convolution kernel weights are randomly assigned rather than trained.
-Though not fully matching the performances of deep networks trained on massive quantities of data, such models nonetheless surprisingly effective in regimes where limited training data is available \cite{cox2011beyond}. %\eg the LFW-a setting we used \cite{krizhevsky2012imagenet} \cite{pinto2009high, cox2011beyond, viglarge}.
+As with other deep networks, these networks consist of the standard cascade of convolution, nonlinear activation, pooling layers, \etc (which together define a single ``level'' in this work); however, the convolution kernel weights are randomly assigned rather than trained.
+Though not fully matching the performances of deep networks trained on massive quantities of data, such models nonetheless are surprisingly effective in regimes where limited training data is available \cite{cox2011beyond, yamins2014performance}. %\eg the LFW-a setting we used \cite{krizhevsky2012imagenet} \cite{pinto2009high, cox2011beyond, viglarge}.
 Most importantly, since the networks themselves do not require training---except for a simple linear classifier at the final stage of the network---a large number of networks with diverse architectures and hyperparameters can be rapidly generated and compared, which is particularly useful in this study where relative, instead of absolute task performances, are of primary interest.
 In the experiments, 100 shallow (\ie one-level) networks and 100 deep (\ie two-level) networks {were} randomly generated (except all with 32 top-layer neurons\footnote{\expsettings}) and tested to see how their representations differ with the networks' depths and affect the networks' performances on face pair matching against the LFW-a dataset \cite{wolf2011effective} as shown in Fig.~\ref{fig:perf}\footnote{\expperf}.
 
@@ -215,7 +215,7 @@ Figure \ref{fig:allrep1} also illustrates the invariance and selectivity paths o
 While invariance paths are mostly phase changes and selectivity paths are leading toward meaningless noises (all at the same falloff rate) in shallow neurons, both types of paths consist of sophisticated shape deformations in deep neurons.
 Interestingly, although most shallow neurons are also selective to manually rotated optimal stimuli (\ie Gabor filters of different orientations) as well, their fitnesses still do not drop faster then the nonparametric numerical solutions as presented in Fig.~\ref{eq:I1}.
 As further demonstrated in the fitness-distance diagrams \cite{jones1995fitness} (Fig.~\ref{fig:fda}), on average, although shallow neurons have good invariance (\ie red curve stays high), they do not have any selectivity (\ie blue curve drops slow), while deep neurons show both good invariance and selectivity (\ie red curve stays high and blue curve drops fast).
-For scalar representations, we can define the invariance (and selectivity, similarly) path potential as the area sandwiched between the invariance curve and the baseline curve (\ie the invariance curves of a single inner-product neuron\footnote{\defbaseline}---the ``baseline'' of all types of neural networks) on the diagram, \ie $\int_{0}^{0.5\pi} \left| \cos^{-1}(f_s(\bf{x}^{+}_{\delta} )) - \delta \right| \mathrm{d}\delta$ (in the $\cos^{-1}$ domain for equalizing both types of path potentials), which measures how invariant (and selective) a neuron is compared to the baseline. %/ {\frac{\pi}{2}}
+For scalar representations, we can define the invariance (and selectivity, similarly) path potential as the area sandwiched between the invariance curve and the baseline curve (\ie the invariance curves of a single inner-product neuron\footnote{\defbaseline}---the ``baseline'' of all types of neural networks) on the diagram, \ie $\int_{0}^{\frac{\pi}{2}} \left| \cos^{-1}(f_s(\bf{x}^{+}_{\delta} )) - \delta \right| \mathrm{d}\delta / \frac{\pi}{2}$ (in the $\cos^{-1}$ domain for equalizing both types of path potentials), which measures how invariant (and selective) a neuron is compared to the baseline. %/ {\frac{\pi}{2}}
 
 %(zero-invariance/-selectivity)
 %In fact, this intriguing difference generalizes across all shallow \vs deep neurons experimented in this work.
@@ -347,7 +347,7 @@ With the strong statistical significances of results obtained from the large-sca
 \end{itemize}
 
 {\bf Future work.}
-In this work, we studied the simplest forms of convolutional networks--- random ``shallow'' (one-layer) networks and the simplest ``deep'' (two-layer) network.
+In this work, we studied the simplest forms of convolutional networks---random ``shallow'' (one-layer) networks and the simplest ``deep'' (two-layer) network.
 However, it is obviously highly desirable to extend such investigations to deeper networks, and to networks that have been trained on large amounts of data.
 Though the methods and measures proposed here are neutral to the depth of networks, numerical challenges (\eg evaluation and convergence speed, quality of solutions, \etc) would need to be addressed in very deep networks.
 
@@ -367,7 +367,7 @@ Finally, even though a decently high fraction of the variance in deep network's 
 
 %\clearpage
 
-{\small
+{%\small
 \bibliographystyle{ieee}
 \bibliography{ref}
 }
