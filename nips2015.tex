@@ -44,7 +44,7 @@ Cranberry-Lemon University\\
 
 \begin{abstract}
 Deep convolutional networks have been proven to be highly effective across a wide range of visual recognition tasks \cite{szegedy2014going, schroff2015facenet, donahue2014decaf}.
-However, our understanding of these networks work arguably remains limited.
+However, our understanding of how these networks work arguably remains limited.
 Here, we examine two fundamental questions: first, why do deep networks outperform shallow networks, and second, among networks of the same depth, why do certain network architectures outperform the others.
 We used face pair matching as a simplified recognition test-bed, and conducted a large-scale experiment in which random shallow and deep networks were generated and analyzed to measure properties of their resulting representations of visual inputs.
 We describe a suite of measures of network selectivity, invariance, and representational quality that are able to account for up to 71\% of the variance in network performance, and we explore how these measures can yield insights into the factors that govern network performance.  
@@ -65,7 +65,7 @@ Nevertheless, it is not fully understood why in practice deep networks (\eg two 
 In recent years, deep convolutional networks have come to dominate many benchmark challenges in computer vision, including datasets such as ImageNet \cite{russakovsky2014imagenet} and LFW \cite{LFWTech} year after year \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going, taigman2014deepface, sun2014deep, schroff2015facenet}.  However, in spite of this impressive performance, our understanding of these networks' properties arguably remains limited, since we cannot yet fully answer the question ``what makes a given deep network good?''
 In this paper, we address two practical aspects of this important question: (1) why do deep networks perform better than shallow networks, and (2) among networks of the same depth, why do certain networks perform better than others (as illustrated in Fig.~\ref{fig:perf}).
 More specifically, from the point of view that successful networks are forming better representations of visual inputs in which object categories are more separable, we want to identify the crucial properties that are required for forming (or learning) better representations. 
-We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as a benchmark task in our experiments, since previous investigations have shown that deep networks perform well in this domain \ref{taigman2014deepface}, and because face images can optionally be easily aligned and extracted from irreverent backgrounds, which can serve as a good source of visual stimuli for studying representations that fundamentally facilitates recognition.  The techniques presented here, however, are in no way specific to face recognition.
+We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as a benchmark task in our experiments, since previous investigations have shown that deep networks perform well in this domain \cite{taigman2014deepface}, and because face images can optionally be easily aligned and extracted from irreverent backgrounds, which can serve as a good source of visual stimuli for studying representations that fundamentally facilitates recognition.  The techniques presented here, however, are in no way specific to face recognition.
 
 % for two main reasons: (1) representations of face recognition networks are far less studied than those of object recognition networks, and (2) face images can be easily aligned and extracted from irreverent backgrounds, which can serve as a better source of visual stimuli for studying representations that fundamentally facilitates recognition\footnote{\expwhyface}.
 
@@ -256,7 +256,7 @@ The highly structural representations of neurons from deep networks using purely
 \label{sec:results2}
 
 \begin{figure}[t]
-\centering \includegraphics[width=\textwidth, trim=1.0ex 0.5ex 0 0, clip]{Figs/g_vs_b_repr.pdf} 
+\centering \includegraphics[width=\textwidth, trim=1.4ex 0.5ex 0 0, clip]{Figs/g_vs_b_repr.pdf} 
 \caption{{\bf Visualization of good and bad representations.}
 Good and bad examples from 3 types of the representation measures among all deep networks are shown in the left and right panels respectively, where color of the boarder of an image indicates its value of the corresponding representation measure (see text for definitions). %representation characterizations
 (1) \Wrt the TSEA measure, good representations can be inverted with much stronger similarities to the original reference stimuli.
@@ -282,9 +282,9 @@ In addition, even though the deep convolutional representations used here are no
 It is widely known that invariance and selectivity are essential for biological vision \cite{desimone1991face, ito1995size}; however, how these properties directly affect the recognition performances of artificial neural networks remains unclear.
 To address this question, starting from randomly sampled reference stimuli, invariance and selectivity path searches {were} performed at $\delta = 0.1\pi$ using Eq.~\ref{eq:I2} and \ref{eq:S2} for vector representations. 
 Figure \ref{fig:allrep2} demonstrates examples of good and bad alignments between the subspaces formed by the invariance/selectivity paths and the task-related stimuli (\ie how likely the invariance and selectivity can benefit recognition), which are defined as the sparsity of $n$ paths projected onto the task-related stimuli's principal component (or here, eigenface) vector space $\bf{V}$, \ie $\frac{1}{n}\sum_{i=1}^{n} \left\| {\bf{Vx}}_{\delta,i} \right\|_{1}$ with $n=20$ and $\delta=0.1\pi$.
-Compared to previous work, our method does not assume that any kind of parametric deformation is important and thus should be studied.
+Compared to some previous work, our method does not assume that any kind of parametric deformation is important and thus should be studied.
 Instead, the ``intrinsic'' invariant and selective directions of representations are directly searched and compared against the distribution of the task-related stimuli, which is relatively bias-free.
-Interestingly, high degrees of invariance and selectivity are observed in high-performing networks, even though these networks were not trained to have this property.
+Surprisingly, highly natural invariance/selectivity are again observed in well-performing networks even given their nature of randomness.
 
 %preferred
 %$\left\lbrace {\bf{x}}^{t} \right\rbrace$
@@ -296,7 +296,7 @@ To understand how the optimal stimuli of individual neurons may affect a deep ne
 Specifically, 10,000 face patches in total {were} randomly sampled from the LFW-a dataset and compared against the optimal stimuli of deep neurons.
 Figure \ref{fig:allrep2} shows examples of good and bad alignments between the optimal stimuli and task-related stimuli, where the alignment measure is defined as the mean of the inner-product distances between an optimal stimulus and its $n$ nearest task-related stimuli $\left\lbrace {\bf{x}}^{t} \right\rbrace$, \ie $\frac{1}{n}\sum_{i=1}^{n} \langle {\bf{x}}^{t}_{i} , \hat{{\bf{x}}} \rangle$ with $n=100$, to estimate how well an optimal stimulus can linearly represent the task-related stimuli (or intuitively how responsive the corresponding neuron might be under the task).
 Intriguingly, though none of the optimal stimuli is apparently similar to any of the task-related stimuli, when alternatively compared against the averages of the better aligned task-related stimuli (top 1\%), the similarities (in good representations) and dissimilarities (in bad representations) become apparent.
-While it is unclear how to ``optimally place'' an optimal stimulus (or shape the entire landscape) in a high dimensional stimulus space under visual recognition tasks, based on our observations, we hypothesize that it should be closely surrounded by multiple visually similar task-relevant stimuli, such that the neuron is more likely to represent those similar stimuli (and only those stimuli) with similar values.
+While it is unclear how to ``optimally place'' an optimal stimulus (or shape the entire landscape) in a high dimensional stimulus space under visual recognition tasks, based on our observations, we hypothesize that it should be closely surrounded by multiple visually similar task-related stimuli, such that the neuron is more likely to represent those similar stimuli (and only those stimuli) with similar values.
 This observation may also explain why optimal stimuli often resemble the averages \cite{le2012building} or combinations \cite{simonyan2013deep} of multiple visual objects.
 
 % (which in low dimensional cases are theoretically validated)
@@ -345,24 +345,6 @@ With the strong statistical significances of results obtained from the large-sca
 \item Both first-order properties of deep representations (TSEA and OTSA) are extremely important to deep network's performance.
 \item All second-order properties of deep representations (in particular, ITSSA and STSSA) together are as important as the first-order properties, if not significantly more.
 \end{itemize}
-
-\begin{figure}[t]
-\centering \includegraphics[width=0.90\textwidth]{Figs/whole_face.pdf}
-\caption{{\bf Characterizing face pair matching decisions.}
-The best-performing decision function $\mathcal{D}$ (\ie the SVM classifier trained based on representations from the best-performing deep network $f_v$) {was} presented with the out-of-training-set reference stimuli, and the optimal stimulus searches, \ie $\arg\max_{\bf{X}}\mathcal{D}(| f_v\left({\bf{X}}\right) - f_v(\tilde{\bf{X}}) |^\frac{1}{2})$, initialized with the LFW-a average face {were} performed.
-The resultant optimal stimuli for the ``match'' decisions, though far from photorealism, actually still well capture certain facial features, especially around the eye regions\protect\footnotemark.
-}
-\label{fig:wface}
-\end{figure}
-
-\footnotetext{Unlike inverting vector representations, inverting the decision (\ie a single top-layer neuron) back into the entire image $\bf{X}$ is significantly harder, and using the average face (which does not ``match'' any of the reference stimuli) significantly helps with the speed and quality of convergence without biasing the results.
-Both resultant optimal stimuli here surprisingly lead to very high matching scores, given that they are merely subtlety different from the average face.
-Worth to note, the decision function {was} only trained on 6,000 face pairs.
-}
-%and visually carry similarities 
-%Why blurry? not inv. rep. it thinks it's close enough. considering the fact that it is only trained on 6,000 face pairs.
-
-Previous investigations have sought to visualize the optimal stimulus for the decision output of fully trained network \cite{szegendy}, and the methods presented here can also be applied to the final classifier layer in our face matching network.  Fig.~\ref{fig:wface} shows examples of such a procedure, wherein an optimal ``matching'' stimulus was generated starting from an average face. The emergence of distinctive facial features in the optimized image could provide useful information about the features that the network uses to represent matches.
 
 {\bf Future work.}
 In this work, we studied the simplest forms of convolutional networks--- random ``shallow'' (one-layer) networks and the simplest ``deep'' (two-layer) network.
