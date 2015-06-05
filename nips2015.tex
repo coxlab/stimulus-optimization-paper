@@ -24,7 +24,7 @@
 \makeatother
 
 %\title{How Representations Affect Recognition Performances of Deep Networks?}
-\title{What Makes Deep Convolutional Representations Good for Visual Recognition?} % 
+\title{What Makes a Deep Convolutional Representations Good for Visual Recognition?} % 
 
 \author{
 David S.~Hippocampus\\
@@ -43,19 +43,18 @@ Cranberry-Lemon University\\
 \maketitle
 
 \begin{abstract}
-Representations of artificial neurons in deep convolutional networks have been demonstrated to be highly effective for various visual recognition tasks \cite{szegedy2014going, schroff2015facenet, donahue2014decaf}.
-However, our understanding of them arguably remains limited.
-In this paper, we address two important questions: (1) why deep networks outperform shallow networks, and (2) among networks of the same depth, why certain networks outperform the others.
-We considered the case study of face pair matching and conducted a large-scale experiment.
-The experiment examined 200 randomly generated shallow and deep networks, with the results analyzed via a series of measures designed to quantify the differences in representations. 
-We conclude through this principled analysis that deep representations are quantitatively better than shallow representations, and overall 71\% of the variance in the performance of deep networks can be explained with our measures, both of which are confirmed using statistical tests for the first time.
+Deep convolutional networks have been proven to be highly effective across a wide range of visual recognition tasks \cite{szegedy2014going, schroff2015facenet, donahue2014decaf}.
+However, our understanding of these networks work arguably remains limited.
+Here, we examine two fundamental questions: first, why do deep networks outperform shallow networks, and second, among networks of the same depth, why do certain network architectures outperform the others.
+We used face pair matching as a simplified recognition test-bed, and conducted a large-scale experiment in which random shallow and deep networks were generated and analyzed to measure properties of their resulting representations of visual inputs.
+We describe a suite of measures of network selectivity, invariance, and representational quality that are able to account for up to 71\% of the variance in network performance, and we explore how these measures can yield insights into the factors that govern network performance.  
 \end{abstract}
 
 \begin{SCfigure}[1.5][h] % force here
 \centering \includegraphics[width=0.40\textwidth]{Figs/perf.pdf} %\vspace{-1.5ex}
-\caption{{\bf What makes a deep network good?}
+\caption{{\bf What makes a given deep network good?}
 Among existing work, researchers mostly tried to produce one ``best'' network architecture (\ie a hyperparameter set, either through manual tuning or automated hyperparameter search), which is subsequently evaluated on a particular benchmark.
-Nevertheless, it is not fully understood why in practice deep networks (\eg two or more levels) on average are better shallow networks (\eg one level), and why certain networks are better than the others, \eg when considering a larger population of networks \cite{cox2011beyond} and their distribution of performance (as shown here) on task like LFW-a face pair matching \cite{wolf2011effective} (see Sec.~\ref{sec:methods} for details of the experimental setup). \vspace{-0.5ex}}
+Nevertheless, it is not fully understood why in practice deep networks (\eg two or more levels) on average are better shallow networks (\eg one level), and why certain network architectures are better than the others, \eg when considering a larger population of networks \cite{cox2011beyond} and their distribution of performance (as shown here) on task like LFW-a face pair matching \cite{wolf2011effective} (see Sec.~\ref{sec:methods} for details of the experimental setup). \vspace{-0.5ex}}
 \label{fig:perf}
 \end{SCfigure}
 
@@ -63,10 +62,12 @@ Nevertheless, it is not fully understood why in practice deep networks (\eg two 
 
 \newcommand{\expwhyface}{Nevertheless, the methods and most observations presented in this work are in general not limited to just face pair matching, and may be generalized onto other domains in visual recognition.}
 
-Although deep convolutional networks have been successfully pushing the boundaries of computer vision by breaking the records of datasets like ImageNet \cite{russakovsky2014imagenet} and LFW \cite{LFWTech} year after year \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going, taigman2014deepface, sun2014deep, schroff2015facenet}, our understanding of these networks' properties arguably remains limited, since we cannot yet fully answer the question ``what makes a deep network good?''
-In this paper, we address two practical aspects of this important question: (1) why deep networks perform better than shallow networks, and (2) among networks of the same depth, why certain networks perform better than others (as illustrated in Fig.~\ref{fig:perf}).
-More specifically, from the point of view that successful networks are forming ``better'' representations of visual inputs that are more separable to the final-stage linear classifiers, we want to identify the crucial properties that are required for forming (or learning) better representations. 
-We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as the benchmark task in our experiments for two main reasons: (1) representations of face recognition networks are far less studied than those of object recognition networks, and (2) face images can be easily aligned and extracted from irreverent backgrounds, which can serve as a better source of visual stimuli for studying representations that fundamentally facilitates recognition\footnote{\expwhyface}.
+In recent years, deep convolutional networks have come to dominate many benchmark challenges in computer vision, including datasets such as ImageNet \cite{russakovsky2014imagenet} and LFW \cite{LFWTech} year after year \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going, taigman2014deepface, sun2014deep, schroff2015facenet}.  However, in spite of this impressive performance, our understanding of these networks' properties arguably remains limited, since we cannot yet fully answer the question ``what makes a given deep network good?''
+In this paper, we address two practical aspects of this important question: (1) why do deep networks perform better than shallow networks, and (2) among networks of the same depth, why do certain networks perform better than others (as illustrated in Fig.~\ref{fig:perf}).
+More specifically, from the point of view that successful networks are forming better representations of visual inputs in which object categories are more separable, we want to identify the crucial properties that are required for forming (or learning) better representations. 
+We adopted face pair matching (\ie identifying pairs of different pictures from the same person and rejecting those from different persons) as a benchmark task in our experiments, since previous investigations have shown that deep networks perform well in this domain \ref{taigman2014deepface}, and because face images can optionally be easily aligned and extracted from irreverent backgrounds, which can serve as a good source of visual stimuli for studying representations that fundamentally facilitates recognition.  The techniques presented here, however, are in no way specific to face recognition.
+
+% for two main reasons: (1) representations of face recognition networks are far less studied than those of object recognition networks, and (2) face images can be easily aligned and extracted from irreverent backgrounds, which can serve as a better source of visual stimuli for studying representations that fundamentally facilitates recognition\footnote{\expwhyface}.
 
 %\newcommand{\ivec}{\mathrm{vec}^{-1}}
 \newcommand{\expstimdim}{For simplicity, a stimulus being 2-dimensional (\ie ${\bf{x}} \in \mathbb{R}^{\sqrt{N} \times \sqrt{N}}$) or vectorized (\ie ${\bf{x}} \in \mathbb{R}^N$) are used interchangeably.}
@@ -168,11 +169,10 @@ Nonetheless, under the hard protocol adopted here (\ie image-restricted, no outs
 %accuracy of identifying pairs of different pictures from the same person and rejecting those from different persons
 
 {\bf Experimental setup.}
-A simplified variety of deep convolutional neural networks \cite{krizhevsky2012imagenet, sermanet2013overfeat, szegedy2014going}---the Spatio-Temporal Hierarchical Object Representation (STHOR) model \cite{cox2011beyond, sthor}---{was} adopted in our experiments.
-Like other deep networks, it consists of the standard cascade of convolution, nonlinear activation, pooling layers, \etc (which together define a single ``level'' in this work).
-However, its convolution kernel weights are randomly assigned rather than trained.
-Though not fully matching the performances of deep networks trained on massive quantities of data, it can in fact still be quite competitive for a variety of tasks, especially in the regime where large quantities of training samples are not publicly available. %\eg the LFW-a setting we used \cite{krizhevsky2012imagenet} \cite{pinto2009high, cox2011beyond, viglarge}.
-Most importantly, since it does not require training---except for the linear SVM on top of the representations (\ie feature vectors) extracted---a large number of networks with diverse hyperparameters can be rapidly generated and compared, which is particularly useful in this study where relative, instead of absolute task performances, are of primary interest.
+To enable the rapid probing of a large number of candidate networks, we used simplified random (untrained) deep convolutional neural networks \cite{cox2011beyond, sthor} in our experiments.
+As with other deep networks, these networks consist of the standard cascade of convolution, nonlinear activation, pooling layers, \etc (which together define a single ``level'' in this work), however, the convolution kernel weights are randomly assigned rather than trained.
+Though not fully matching the performances of deep networks trained on massive quantities of data, such models nonetheless surprisingly effective in regimes where limited training data is available \cite{cox2011beyond}. %\eg the LFW-a setting we used \cite{krizhevsky2012imagenet} \cite{pinto2009high, cox2011beyond, viglarge}.
+Most importantly, since the networks themselves do not require training---except for a simple linear classifier at the final stage of the network---a large number of networks with diverse architectures and hyperparameters can be rapidly generated and compared, which is particularly useful in this study where relative, instead of absolute task performances, are of primary interest.
 In the experiments, 100 shallow (\ie one-level) networks and 100 deep (\ie two-level) networks {were} randomly generated (except all with 32 top-layer neurons\footnote{\expsettings}) and tested to see how their representations differ with the networks' depths and affect the networks' performances on face pair matching against the LFW-a dataset \cite{wolf2011effective} as shown in Fig.~\ref{fig:perf}\footnote{\expperf}.
 
 \section{Results: Shallow \vs Deep Representations}
@@ -317,7 +317,7 @@ Spearman's rank correlations ($\rho$) and their significance levels\protect\foot
 \label{fig:corr}
 \end{figure}
 
-\footnotetext{The rest measures which are included in the multiple correlation analysis but not individually reintroduced and shown in Fig.~\ref{fig:corr} are the invariance path potential, selectivity path potential, and invariance subspace capacity of vector representations. Their individual correlations and significance levels are $-0.31^{\ast\ast}$, $-0.24^{\ast}$, $-0.39^{\ast\ast\ast}$, respectively. See supplementary material for related details.}
+\footnotetext{The remainder of the measures that are included in the multiple correlation analysis but not individually reintroduced and shown in Fig.~\ref{fig:corr} are the invariance path potential, selectivity path potential, and invariance subspace capacity of vector representations. Their individual correlations and significance levels are $-0.31^{\ast\ast}$, $-0.24^{\ast}$, $-0.39^{\ast\ast\ast}$, respectively. See supplementary material for related details.}
 
 {\bf Overall comparison.}
 Spearman's rank correlations between all representation measures and all 100 deep networks' performances are summarized in Fig.~\ref{fig:corr}, and 71\% of the variance of deep networks' performances is explainable with the proposed measures altogether.
@@ -361,13 +361,13 @@ Worth to note, the decision function {was} only trained on 6,000 face pairs.
 %and visually carry similarities 
 %Why blurry? not inv. rep. it thinks it's close enough. considering the fact that it is only trained on 6,000 face pairs.
 
-In addition to the representations inside deep networks, we also tried to probe the face pair matching decisions made based upon those representations, as exemplified in Fig.~\ref{fig:wface}, which is reported for the first time too to our best knowledge. Though being qualitative, the results still positively confirm the effectiveness of these deep representations as in the complete face pair matching decisions.
+Previous investigations have sought to visualize the optimal stimulus for the decision output of fully trained network \cite{szegendy}, and the methods presented here can also be applied to the final classifier layer in our face matching network.  Fig.~\ref{fig:wface} shows examples of such a procedure, wherein an optimal ``matching'' stimulus was generated starting from an average face. The emergence of distinctive facial features in the optimized image could provide useful information about the features that the network uses to represent matches.
 
 {\bf Future work.}
-In this work, we only studied shallow networks and the ``simplest'' type of deep networks, two-level networks.
-Our results can potentially generalize if viewed as the characterization of ``adding an extra level.''
-However, it is indeed highly desirable to extend the study into even deeper networks.
-Even though the methods and measures proposed in this work are neutral to the depth of networks, numerical difficulties (\eg evaluation and convergence speed, quality of solutions, \etc) might need to be addressed in very deep networks.
+In this work, we studied the simplest forms of convolutional networks--- random ``shallow'' (one-layer) networks and the simplest ``deep'' (two-layer) network.
+However, it is obviously highly desirable to extend such investigations to deeper networks, and to networks that have been trained on large amounts of data.
+Though the methods and measures proposed here are neutral to the depth of networks, numerical challenges (\eg evaluation and convergence speed, quality of solutions, \etc) would need to be addressed in very deep networks.
+
 Beyond explaining what properties make a deep representation good, it would be valuable too to incorporate these findings into learning even better representations (which are almost solely driven by bigger datasets nowadays), \eg, via regularizing the representation measures.  
 We believe that this could be useful in accelerating or improving representation learning, particularly when data are scarce and representations are not easily transferable.
 Finally, even though a decently high fraction of the variance in deep network's performance has been explained, how to further increase this number, if there is an upper bound (\eg limits from dataset itself), \etc, need to be further investigated.
